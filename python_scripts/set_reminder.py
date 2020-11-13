@@ -3,6 +3,7 @@
 #
 # Data:
 #   name: Sensor name (required)
+#   icon: Remidner icon (optional, default mdi:calendar-star)
 #   date: Reminder date time D/M/Y-H:M (required, time is optional)
 #   title: Reminder title (optional)
 #   recurrence: yearly, montly, daily, does not repeat (optional, default 'yearly')
@@ -11,6 +12,7 @@
 #   notifier: (optional)
 #   script: (optional)
 #   message: (optional)
+#   enable: Enable /disable the reminder (optional, default on)
 #------------------------------------------------------------------------------
 
 # Reminder name
@@ -43,8 +45,6 @@ enable = data.get('enable', 'on')
 new_state = 'off'
 remaining_days = 0
 friendly_date = "-\-\-"
-# next_date = None
-# reminder_date = None
 
 # Convert the date
 date_split = date_time[0].split("-")

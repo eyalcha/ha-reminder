@@ -12,5 +12,11 @@ key | required | type | description
 `name` | True | string | Name of the date (eg. John Birthday)
 `date` | True | date |
 `title` | False | string |
+`recurrence` | False | string | yearly, montly, daily, does not repeat (default 'yearly')
+`every` | False | number | Multiple of the recurrence period
+`tag` | False | string | Tag
+`notifier` | False | string | Notifer to call when reminder occurs
+`script` | False | string | Script to execute when reminder occurs
+`message` | False | string | Notifier message
 
 ## Usage
