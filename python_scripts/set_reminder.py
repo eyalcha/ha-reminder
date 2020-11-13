@@ -211,8 +211,3 @@ if new_state == 'on' and current_state == 'off':
                 "message": message
             }
         )
-
-# For debugging
-logger.debug("Reminder current:{} new:{} reminder:{} next:{} calc:{} midnight:{}".format(
-    current_state, new_state, reminder_date, next_date, calc_date, calc_midnight_date)
-    )
