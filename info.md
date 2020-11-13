@@ -1,4 +1,7 @@
 ## How it works
+
+** THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!"
+
 This script creates a sensor that counts down to the next occurrence of a reminder date.
 
 Requires `python_script:` to be enabled in your configuration
