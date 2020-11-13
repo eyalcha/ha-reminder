@@ -1,4 +1,4 @@
-# Set Reminder
+# HA Reminder
 
 **THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!**
 
