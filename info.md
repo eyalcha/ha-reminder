@@ -97,3 +97,7 @@ title: Reminders
 entities:
   - entity: sensor.john_birthday
 ```
+
+## Todo
+
+- Add weekly support (not implemented yet)
