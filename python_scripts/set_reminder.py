@@ -174,7 +174,6 @@ if next_date and new_state == 'off':
 
 # Format friendly next reminder date
 if next_date:
-    logger.debug(next_date)
     if all_day:
         friendly_date = "{:04d}-{:02d}-{:02d}".format(
             next_date.year, next_date.month, next_date.day)
