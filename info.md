@@ -1,6 +1,6 @@
 ## How it works
 
-** THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!! **
+**THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!**
 
 This script creates a sensor that counts down to the next occurrence of a reminder date.
 

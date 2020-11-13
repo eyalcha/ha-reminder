@@ -1,6 +1,6 @@
 # Set Reminder
 
-** THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!! **
+**THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!**
 
 A python script for Home Assistant that counts down the days to reminder. ON the day of the reminder, the remminder state will be changed to on state.
 
