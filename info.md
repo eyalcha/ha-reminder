@@ -9,6 +9,8 @@ Copy the Python script in to your `/config/python_scripts` directory or install 
 ## Script arguments
 key | required | type | description
 -- | -- | -- | --
-`name:` | True | string | Name of the date (eg. John)
+`name` | True | string | Name of the date (eg. John Birthday)
+`date` | True | date |
+`title` | False | string |
 
 ## Usage
