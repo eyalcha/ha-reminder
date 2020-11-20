@@ -3,7 +3,8 @@
 #
 # Data:
 #   name: Sensor name (required)
-#   icon: Remidner icon (optional, default mdi:calendar-star)
+#   icon_on: Remidner icon on state (optional, default mdi:calendar-alerrt)
+#   icon_off: Remidner icon off state (optional, default mdi:calendar-star)
 #   date: Reminder date time D/M/Y-H:M (required, time is optional)
 #   title: Reminder title (optional)
 #   recurrence: yearly, montly, daily, does not repeat (optional, default 'yearly')
@@ -17,14 +18,15 @@
 
 # Reminder name
 name = data.get('name').replace(" ", "_")
-# Default icon
-default_icon = "mdi:calendar-star"
-# Days before to notify
+# Icons
+icon_off = data.get("icon_off", "mdi:calendar-star")
+icon_on = data.get("icon_on", "mdi:calendar-alert")
+# Days before to notify (not functional yet)
 days_notice = data.get('days_notice', 0)
 # Reminder recurrence
 recurrence = data.get('recurrence', 'yearly').lower()
-# Sensor name derived from name
-sensor_name = "sensor.{}".format(name)
+# Reminder duration in hours. The time the reminder will be in 'on' state
+duration = data.get('duration', 0)
 # Reminder title (will be sensor friendly_name)
 title = data.get('title', 'Reminder')
 # Reminder tag
@@ -36,10 +38,13 @@ notifier = data.get('notifier')
 script = data.get('script')
 # Action message
 message = data.get('message', title)
-# Split to date and time
-date_time = data.get('date').split('T')
+# Split to date and time (input date should be in format: YYYY-MM-DD H:M)
+date_time = data.get('date').split(' ')
 # Enabled / disabled
 enable = data.get('enable', 'on')
+
+# Sensor name derived from name
+sensor_name = "sensor.{}".format(name)
 
 # Default values
 new_state = 'off'
@@ -48,9 +53,9 @@ friendly_date = "-\-\-"
 
 # Convert the date
 date_split = date_time[0].split("-")
-date_day = int(date_split[0])
+date_year = int(date_split[0])
 date_month = int(date_split[1])
-date_year =  int(date_split[2])
+date_day = int(date_split[2])
 
 # Check if time was specified
 if len(date_time) == 2:
@@ -129,12 +134,9 @@ def datenext(t1, t2, n, type):
         return dateadd(t1, int(n * (int((diff / n)) + (1 if (diff % n) else 0))), type)
     return t1
 
-# Reference date / time for reminder check
-calc_date = datetime.datetime.now().replace(second=0, microsecond=0)
-
-# Start / end of reference date
-calc_date_start = calc_date.replace(hour=0, minute=0, second=0, microsecond=0)
-calc_date_end = calc_date.replace(hour=23, minute=59, second=59, microsecond=0)
+# Reference date / time for reminder check (for now using sensor date time until
+# the issue with datetime returning utc will be solved)
+calc_date = datetime.datetime.strptime(hass.states.get('sensor.date_time').state, "%Y-%m-%d, %H:%M")
 
 # The remidner date set by user
 set_date = datebuild(date_year, date_month, date_day, time_hour, time_minute)
@@ -177,9 +179,20 @@ next_date = datenext(set_date, calc_date, every, recurrence)
 # sensor current state
 current_state = hass.states.get(sensor_name).state
 
+# Start / end of reference date
+calc_date_start = calc_date.replace(hour=0, minute=0, second=0, microsecond=0)
+calc_date_midnight = calc_date.replace(hour=23, minute=59, second=59, microsecond=0)
+if duration == 0:
+    calc_date_end = calc_date_midnight
+else:
+    calc_date_end = reminder_date + datetime.timedelta(hours=duration)
+    # By the end of the day we turn off all reminders
+    if calc_date_end > calc_date_midnight:
+        calc_date_end = calc_date_midnight
+
 # Sensor new state.
 if calc_date_start <= reminder_date <= calc_date_end:
-    if calc_date >= reminder_date:
+    if reminder_date <= calc_date <= calc_date_end:
         new_state = 'on'
 
 # Remaining days to next occurence
@@ -198,13 +211,10 @@ if next_date:
 # Send the sensor to homeassistant
 hass.states.set(sensor_name, new_state,
     {
-        "icon" : data.get("icon", default_icon),
+        "icon" : icon_off if new_state == 'off' else icon_on,
         "friendly_name" : "{}".format(title),
         "friendly_date": friendly_date,
         "remaining": remaining_days,
-        "recurrence": recurrence,
-        "every": every,
-        "enable": enable,
         "tag": tag
     }
 )
