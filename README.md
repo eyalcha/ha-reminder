@@ -101,7 +101,7 @@ entities:
 
 The following configuration can be used to have UI configurable reminder.
 
-![Reminders](docs/images/reminder-1.jpg)
+![Reminders](docs/images/reminders-1.jpg)
 
 ```yaml
 input_select:
