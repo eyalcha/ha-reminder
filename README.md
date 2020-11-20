@@ -1,5 +1,7 @@
 # HA Reminder
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+
 **THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!**
 
 *Please :star: this repo if you find it useful*
@@ -10,7 +12,7 @@
 
 A python script for Home Assistant that counts down the days to a reminder. On the day of the reminder, the remminder state will be changed to 'on' state.
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+[Reminders](https://youtu.be/XYYp_4XGPl4 "Reminders")
 
 **Note** In 0.118 there is an issue with local /utc time, so until it will be fixed, current local time is taken from the sensor `sensor.date_time` which should exists
 
