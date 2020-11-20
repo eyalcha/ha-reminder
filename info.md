@@ -12,7 +12,7 @@ A python script for Home Assistant that counts down the days to a reminder. On t
 
 [See it on YouTube](https://youtu.be/XYYp_4XGPl4 "Reminders")
 
-**Note** In 0.118 there is an issue with local /utc time, so until it will be fixed, current local time is taken from the sensor `sensor.date_time` which should exists
+**Note** In 0.118 there is an issue with local / utc time, so until it will be fixed, current local time is taken from the sensor `sensor.date_time` which should exists
 
 ## Script arguments
 key | required | type | description
