@@ -90,7 +90,7 @@ automation:
       - service: python_script.set_reminder
         data:
           name: John birthday
-          date: "05-10-1985"
+          date: "1985-10-05"
           title: John birthday
           tag: birthday
 ```
