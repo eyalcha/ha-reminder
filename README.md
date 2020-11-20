@@ -12,8 +12,8 @@ A python script for Home Assistant that counts down the days to a reminder. On t
 key | required | type | description
 -- | -- | -- | --
 `name` | True | string | Name of the date (eg. John Birthday)
-'icon_on' | False | string | Icon when reminder has on state (default mdi:calendar-alert)
-'icon_off' | False | string | Icon when reminder has off state (default mdi:calendar-star)
+`icon_on` | False | string | Icon when reminder has on state (default mdi:calendar-alert)
+`icon_off` | False | string | Icon when reminder has off state (default mdi:calendar-star)
 `date` | True | date | Date, in format YYYY-MM-DD-MM HH:MM (time is optional)
 `title` | False | string | Reminder title (will be used as the friendly name, default 'Reminder')
 `recurrence` | False | string | yearly, montly, daily, does not repeat (default 'yearly')
@@ -100,6 +100,8 @@ entities:
 ## Advance Example
 
 The following configuration can be used to have UI configurable reminder.
+
+![Reminders](docs/images/reminder-1.jpg)
 
 ```yaml
 input_select:
