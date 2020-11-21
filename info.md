@@ -94,7 +94,7 @@ automation:
   - alias: Reminder refresh
     trigger:
       - platform: time_pattern
-        minutes: 1
+        minutes: /30
       - platform: homeassistant
         event: start
     action:
