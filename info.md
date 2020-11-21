@@ -48,7 +48,7 @@ examples:
 
 ```
 name: John Birthday
-date: 1985-10-05
+date: "1985-10-05"
 title: John birthday
 tag: birthday
 ```
@@ -57,7 +57,7 @@ or
 
 ```
 name: Replace brita filter
-date: 2020-11-06 08:00
+date: "2020-11-06 08:00"
 recurrence: monthly
 notifier: telegram_bot
 ```
@@ -66,7 +66,7 @@ or
 
 ```
 name: Buy new running shoes
-date: 2020-10-01 08:00
+date: "2020-10-01 08:00"
 recurrence: monthly
 every: 6
 notifier: telegram_bot
