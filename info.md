@@ -181,6 +181,8 @@ script:
           enable: "{{ states('input_boolean.reminder1_enable') }}"
 ```
 
+**note** Due to issue with datetime in 0.118 you might need to use ```timestamp_utc``` instead of ```timestamp_local```.
+
 ```yaml
 decluttering_templates:
   template_reminder_card:

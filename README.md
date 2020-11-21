@@ -162,7 +162,7 @@ automation:
   - alias: Reminder refresh
     trigger:
       - platform: time_pattern
-        minutes: 1
+        minutes: /30
       - platform: homeassistant
         event: start
     action:
@@ -182,6 +182,8 @@ script:
           date: "{{ as_timestamp(states('input_datetime.reminder1_date')) | timestamp_local }}"
           enable: "{{ states('input_boolean.reminder1_enable') }}"
 ```
+
+**note** Due to issue with datetime in 0.118 you might need to use ```timestamp_utc``` instead of ```timestamp_local```.
 
 ```yaml
 decluttering_templates:
