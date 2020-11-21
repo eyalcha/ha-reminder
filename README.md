@@ -16,6 +16,12 @@ A python script for Home Assistant that counts down the days to a reminder. On t
 
 **Note** In 0.118 there is an issue with local / utc time, so until it will be fixed, current local time is taken from the sensor `sensor.date_time` which should exists
 
+## Enable Python Scripts in Home Assistant
+
+```yaml
+python_script:
+```
+
 ## Script arguments
 key | required | type | description
 -- | -- | -- | --
@@ -107,7 +113,11 @@ entities:
 
 ## Advance Example
 
-The following configuration can be used to have UI configurable reminder.
+The following configuration can be used to have UI configurable reminder. For lovelace, you need to install the following:
+
+- Decluttering card: https://github.com/custom-cards/decluttering-card
+- Multiple entity row: https://github.com/benct/lovelace-multiple-entity-row
+- Fold entity row: https://github.com/thomasloven/lovelace-fold-entity-row
 
 ![Reminders](docs/images/reminders-1.jpg)
 
