@@ -30,6 +30,18 @@ key | required | type | description
 `script` | False | string | Script to execute when reminder occurs
 `message` | False | string | Notifier / script message (default reminder title)
 
+## Enable Python Scripts in Home Assistant
+
+Add to configuration.yaml
+```yaml
+python_script:
+```
+
+Create folder
+```
+<config>/python_scripts
+```
+
 ## Usage
 
 examples:
@@ -66,6 +78,7 @@ Each sensor is given the following automatically:
 ```
 entity_id: sensor.<name>
 friendly_name: <title>
+friendly_date: <date time>
 state: <on/off>
 icon: <icon>
 friendly_date: <YYYY-MM-DD HH:MM>
@@ -105,7 +118,11 @@ entities:
 
 ## Advance Example
 
-The following configuration can be used to have UI configurable reminder.
+The following configuration can be used to have UI configurable reminder. For lovelace, you need to install the following:
+
+- Decluttering card: https://github.com/custom-cards/decluttering-card
+- Multiple entity row: https://github.com/benct/lovelace-multiple-entity-row
+- Fold entity row: https://github.com/thomasloven/lovelace-fold-entity-row
 
 ![Reminders](docs/images/reminders-1.jpg)
 

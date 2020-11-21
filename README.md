@@ -18,8 +18,14 @@ A python script for Home Assistant that counts down the days to a reminder. On t
 
 ## Enable Python Scripts in Home Assistant
 
+Add to configuration.yaml
 ```yaml
 python_script:
+```
+
+Create folder
+```
+<config>/python_scripts
 ```
 
 ## Script arguments
@@ -74,6 +80,7 @@ Each sensor is given the following automatically:
 ```
 entity_id: sensor.<name>
 friendly_name: <title>
+friendly_date: <date time>
 state: <on/off>
 icon: <icon>
 friendly_date: <YYYY-MM-DD HH:MM>
