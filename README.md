@@ -158,6 +158,18 @@ input_text:
 ```
 
 ```yaml
+automation:
+  - alias: Reminder refresh
+    trigger:
+      - platform: time_pattern
+        minutes: 1
+      - platform: homeassistant
+        event: start
+    action:
+      - service: script.reminder_refresh
+```
+
+```yaml
 script:
   reminder_refresh:
     sequence:
