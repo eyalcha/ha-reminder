@@ -191,9 +191,10 @@ else:
         calc_date_end = calc_date_midnight
 
 # Sensor new state.
-if calc_date_start <= reminder_date <= calc_date_end:
-    if reminder_date <= calc_date <= calc_date_end:
-        new_state = 'on'
+if enable == 'on':
+    if calc_date_start <= reminder_date <= calc_date_end:
+        if reminder_date <= calc_date <= calc_date_end:
+            new_state = 'on'
 
 # Remaining days to next occurence
 if next_date and new_state == 'off':
