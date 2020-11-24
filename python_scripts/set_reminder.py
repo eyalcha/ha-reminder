@@ -134,9 +134,8 @@ def datenext(t1, t2, n, type):
         return dateadd(t1, int(n * (int((diff / n)) + (1 if (diff % n) else 0))), type)
     return t1
 
-# Reference date / time for reminder check (for now using sensor date time until
-# the issue with datetime returning utc will be solved)
-calc_date = datetime.datetime.strptime(hass.states.get('sensor.date_time').state, "%Y-%m-%d, %H:%M")
+# Reference date / time for reminder check
+calc_date = datetime.datetime.now().replace(second=0, microsecond=0)
 
 # The remidner date set by user
 set_date = datebuild(date_year, date_month, date_day, time_hour, time_minute)
