@@ -127,14 +127,17 @@ def datediff(t1, t2, type):
     return diff
 
 def datenext(t1, t2, n, type):
+    diff = None
     if type == 'does not repeat':
         return None
     if t1 < t2:
         diff = datediff(t1, t2, type)
-        return dateadd(t1, int(n * (int((diff / n)) + (1 if (diff % n) else 0))), type)
-    return t1
+        return dateadd(t1, int(n * (int((diff / n)) + (1 if (diff % n) else 0))), type), diff
+    return t1, diff
 
-# Reference date / time for reminder check
+# Reference date / time for reminder check (for now using sensor date time until
+# the issue with datetime returning utc will be solved)
+# calc_date = datetime.datetime.strptime(hass.states.get('sensor.date_time').state, "%Y-%m-%d, %H:%M")
 calc_date = datetime.datetime.now().replace(second=0, microsecond=0)
 
 # The remidner date set by user
@@ -172,8 +175,8 @@ elif recurrence == 'does not repeat':
         days_notice
     )
 
-# Next reminder date
-next_date = datenext(set_date, calc_date, every, recurrence)
+# Next reminder
+next_date, diff_date = datenext(set_date, calc_date, every, recurrence)
 
 # sensor current state
 current_state = hass.states.get(sensor_name).state
@@ -191,9 +194,14 @@ else:
 
 # Sensor new state.
 if enable == 'on':
-    if calc_date_start <= reminder_date <= calc_date_end:
-        if reminder_date <= calc_date <= calc_date_end:
-            new_state = 'on'
+    # The first date the user set must be before the current date (otherwise first
+    # reminder is in the future).
+    if set_date < calc_date:
+        # We check that every has being fullfiled
+        if diff_date and ((diff_date - 1) == every):
+            if calc_date_start <= reminder_date <= calc_date_end:
+                if reminder_date <= calc_date <= calc_date_end:
+                    new_state = 'on'
 
 # Remaining days to next occurence
 if next_date and new_state == 'off':
@@ -215,6 +223,7 @@ hass.states.set(sensor_name, new_state,
         "friendly_name" : "{}".format(title),
         "friendly_date": friendly_date,
         "remaining": remaining_days,
+        "enable": enable,
         "tag": tag
     }
 )
