@@ -129,7 +129,7 @@ def datediff(t1, t2, type):
 def datenext(t1, t2, n, type):
     diff = None
     if type == 'does not repeat':
-        return None
+        return None, diff
     if t1 < t2:
         diff = datediff(t1, t2, type)
         return dateadd(t1, int(n * (int((diff / n)) + (1 if (diff % n) else 0))), type), diff
