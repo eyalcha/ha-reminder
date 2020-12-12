@@ -198,7 +198,7 @@ if enable == 'on':
     # reminder is in the future).
     if set_date < calc_date:
         # We check that every has being fullfiled
-        if diff_date and ((diff_date - 1) == every):
+        if diff_date and (((diff_date - 1) % every) == 0):
             if calc_date_start <= reminder_date <= calc_date_end:
                 if reminder_date <= calc_date <= calc_date_end:
                     new_state = 'on'
