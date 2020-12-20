@@ -49,9 +49,11 @@ sensor_name = "sensor.{}".format(name)
 # Default values
 new_state = 'off'
 friendly_date = "-\-\-"
+remaining = 0
 remaining_days = 0
 remaining_hours = 0
 remaining_minutes = 0
+remaining_seconds = 0
 
 # Convert the date
 date_split = date_time[0].split("-")
@@ -211,8 +213,9 @@ if next_date and new_state == 'off':
     remaining_days = delta.days
     remaining_hours = int(delta.seconds / (60 * 60))
     remaining_minutes = int((delta.seconds - (remaining_hours * (60 * 60))) / 60)
+    remaining_seconds = remaining_days * 60 * 60 * 24 + remaining_hours * 60 * 60 + remaining_minutes * 60
     if remaining_days > 0:
-        remaining = "{:02d}".format(remaining_days)
+        remaining = remaining_days
     else:
         remaining = "{:02d}:{:02d}".format(remaining_hours, remaining_minutes)
 
@@ -233,7 +236,7 @@ hass.states.set(sensor_name, new_state,
         "next": date_time,
         "remaining": remaining,
         "days": remaining_days,
-        "seconds": remaining_days * 60 * 60 * 24 + remaining_hours * 60 * 60 + remaining_minutes * 60,
+        "seconds": remaining_seconds,
         "enable": enable,
         "tag": tag
     }
