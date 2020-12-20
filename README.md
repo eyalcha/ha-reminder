@@ -2,8 +2,6 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
-**THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!**
-
 *Please :star: this repo if you find it useful*
 
 <p align="left"><br>
@@ -39,7 +37,7 @@ key | required | type | description
 `date` | True | date | Date, in format YYYY-MM-DD-MM HH:MM (time is optional)
 `title` | False | string | Reminder title (will be used as the friendly name, default 'Reminder')
 `recurrence` | False | string | yearly, montly, daily, does not repeat (default 'yearly')
-`duration` | False | number | Reminder duration ('on' state) in hours (default 0)
+`duration` | False | number | Reminder duration ('on' state) in minutes (default 0)
 `every` | False | number | Multiple of the recurrence period
 `tag` | False | string | Tag
 `notifier` | False | string | Notifer to call when reminder occurs
@@ -81,12 +79,13 @@ Each sensor is given the following automatically:
 
 ```
 entity_id: sensor.<name>
+icon: <sensor icon>
 friendly_name: <title>
-friendly_date: <date time>
-state: <on/off>
-icon: <icon>
-friendly_date: <YYYY-MM-DD HH:MM>
-remaining: <Remaning days to occurence>
+next: <next occurence date time>
+remaining: <remaining days or remaining hours:minutes (time left dependend)>
+days: <total remaining days>
+seconds: <total remaining seconds>
+enable: <enable state>
 tag: <tag>
 ```
 
@@ -218,7 +217,7 @@ decluttering_templates:
           - type: custom:multiple-entity-row
             entity: sensor.[[name]]
             secondary_info:
-              attribute: friendly_date
+              attribute: next
             entities:
               - attribute: remaining
                 name: Remaining

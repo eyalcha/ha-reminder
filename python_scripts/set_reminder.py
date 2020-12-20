@@ -25,7 +25,7 @@ icon_on = data.get("icon_on", "mdi:calendar-alert")
 days_notice = data.get('days_notice', 0)
 # Reminder recurrence
 recurrence = data.get('recurrence', 'yearly').lower()
-# Reminder duration in hours. The time the reminder will be in 'on' state
+# Reminder duration in minutes. The time the reminder will be in 'on' state
 duration = data.get('duration', 0)
 # Reminder title (will be sensor friendly_name)
 title = data.get('title', 'Reminder')
@@ -48,8 +48,10 @@ sensor_name = "sensor.{}".format(name)
 
 # Default values
 new_state = 'off'
-remaining_days = 0
 friendly_date = "-\-\-"
+remaining_days = 0
+remaining_hours = 0
+remaining_minutes = 0
 
 # Convert the date
 date_split = date_time[0].split("-")
@@ -187,7 +189,7 @@ calc_date_midnight = calc_date.replace(hour=23, minute=59, second=59, microsecon
 if duration == 0:
     calc_date_end = calc_date_midnight
 else:
-    calc_date_end = reminder_date + datetime.timedelta(hours=duration)
+    calc_date_end = reminder_date + datetime.timedelta(minutes=duration)
     # By the end of the day we turn off all reminders
     if calc_date_end > calc_date_midnight:
         calc_date_end = calc_date_midnight
@@ -205,15 +207,22 @@ if enable == 'on':
 
 # Remaining days to next occurence
 if next_date and new_state == 'off':
-    remaining_days = (next_date - calc_date).days
+    delta = next_date - calc_date
+    remaining_days = delta.days
+    remaining_hours = int(delta.seconds / (60 * 60))
+    remaining_minutes = int((delta.seconds - (remaining_hours * (60 * 60))) / 60)
+    if remaining_days > 0:
+        remaining = "{:02d}".format(remaining_days)
+    else:
+        remaining = "{:02d}:{:02d}".format(remaining_hours, remaining_minutes)
 
 # Format friendly next reminder date
 if next_date:
     if all_day:
-        friendly_date = "{:04d}-{:02d}-{:02d}".format(
+        date_time = "{:04d}-{:02d}-{:02d}".format(
             next_date.year, next_date.month, next_date.day)
     else:
-        friendly_date = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}".format(
+        date_time = "{:04d}-{:02d}-{:02d} {:02d}:{:02d}".format(
             next_date.year, next_date.month, next_date.day, next_date.hour, next_date.minute)
 
 # Send the sensor to homeassistant
@@ -221,8 +230,10 @@ hass.states.set(sensor_name, new_state,
     {
         "icon" : icon_off if new_state == 'off' else icon_on,
         "friendly_name" : "{}".format(title),
-        "friendly_date": friendly_date,
-        "remaining": remaining_days,
+        "next": date_time,
+        "remaining": remaining,
+        "days": remaining_days,
+        "seconds": remaining_days * 60 * 60 * 24 + remaining_hours * 60 * 60 + remaining_minutes * 60,
         "enable": enable,
         "tag": tag
     }
@@ -243,3 +254,10 @@ if new_state == 'on' and current_state == 'off':
                 "message": message
             }
         )
+
+# For debugging
+# logger.warn("Reminder current:{} new:{} set:{} reminder:{} next:{} calc:{} start:{} end:{} diff:{} remaining:{} now:{}".format(
+#     current_state, new_state, set_date, reminder_date, next_date,
+#     calc_date, calc_date_start, calc_date_end, diff_date, remaining_time,
+#     datetime.datetime.now())
+#     )

@@ -1,6 +1,6 @@
-## How it works
+# HA Reminder
 
-**THIS IS INITIAL VERSION, NOT FULLY TESTED YET!!!**
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
 *Please :star: this repo if you find it useful*
 
@@ -12,21 +12,9 @@ A python script for Home Assistant that counts down the days to a reminder. On t
 
 [See it on YouTube](https://youtu.be/XYYp_4XGPl4 "Reminders")
 
-## Script arguments
-key | required | type | description
--- | -- | -- | --
-`name` | True | string | Name of the date (eg. John Birthday)
-`icon_on` | False | string | Icon when reminder has on state (default mdi:calendar-alert)
-`icon_off` | False | string | Icon when reminder has off state (default mdi:calendar-star)
-`date` | True | date | Date, in format YYYY-MM-DD-MM HH:MM (time is optional)
-`title` | False | string | Reminder title (will be used as the friendly name, default 'Reminder')
-`recurrence` | False | string | yearly, montly, daily, does not repeat (default 'yearly')
-`duration` | False | number | Reminder duration ('on' state) in hours (default 0)
-`every` | False | number | Multiple of the recurrence period
-`tag` | False | string | Tag
-`notifier` | False | string | Notifer to call when reminder occurs
-`script` | False | string | Script to execute when reminder occurs
-`message` | False | string | Notifier / script message (default reminder title)
+## Installation
+
+Install via HACS (recommended) or download the `set_reminder.py` file from inside the python_scripts directory here to your local python_scripts directory, then reload python_scripts in Home Assistant.
 
 ## Enable Python Scripts in Home Assistant
 
@@ -39,6 +27,22 @@ Create folder
 ```
 <config>/python_scripts
 ```
+
+## Script arguments
+key | required | type | description
+-- | -- | -- | --
+`name` | True | string | Name of the date (eg. John Birthday)
+`icon_on` | False | string | Icon when reminder has on state (default mdi:calendar-alert)
+`icon_off` | False | string | Icon when reminder has off state (default mdi:calendar-star)
+`date` | True | date | Date, in format YYYY-MM-DD-MM HH:MM (time is optional)
+`title` | False | string | Reminder title (will be used as the friendly name, default 'Reminder')
+`recurrence` | False | string | yearly, montly, daily, does not repeat (default 'yearly')
+`duration` | False | number | Reminder duration ('on' state) in minutes (default 0)
+`every` | False | number | Multiple of the recurrence period
+`tag` | False | string | Tag
+`notifier` | False | string | Notifer to call when reminder occurs
+`script` | False | string | Script to execute when reminder occurs
+`message` | False | string | Notifier / script message (default reminder title)
 
 ## Usage
 
@@ -75,12 +79,13 @@ Each sensor is given the following automatically:
 
 ```
 entity_id: sensor.<name>
+icon: <sensor icon>
 friendly_name: <title>
-friendly_date: <date time>
-state: <on/off>
-icon: <icon>
-friendly_date: <YYYY-MM-DD HH:MM>
-remaining: <Remaning days to occurence>
+next: <next occurence date time>
+remaining: <remaining days or remaining hours:minutes (time left dependend)>
+days: <total remaining days>
+seconds: <total remaining seconds>
+enable: <enable state>
 tag: <tag>
 ```
 
@@ -175,7 +180,7 @@ automation:
   - alias: Reminder refresh
     trigger:
       - platform: time_pattern
-        minutes: 1
+        minutes: /30
       - platform: homeassistant
         event: start
     action:
@@ -212,7 +217,7 @@ decluttering_templates:
           - type: custom:multiple-entity-row
             entity: sensor.[[name]]
             secondary_info:
-              attribute: friendly_date
+              attribute: next
             entities:
               - attribute: remaining
                 name: Remaining
