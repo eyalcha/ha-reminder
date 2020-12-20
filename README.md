@@ -8,7 +8,7 @@
 <a href="https://paypal.me/eyalco1967?locale.x=he_IL" target="_blank"><img src="http://khrolenok.ru/support_paypal.png" alt="PayPal" width="250" height="48"></a>
 </p>
 
-A python script for Home Assistant that counts down the days to a reminder. On the day of the reminder, the remminder state will be changed to 'on' state.
+A python script for Home Assistant that counts down the days to a reminder. On the day of the reminder, the reminder state will be changed to 'on' state.
 
 [See it on YouTube](https://youtu.be/XYYp_4XGPl4 "Reminders")
 
